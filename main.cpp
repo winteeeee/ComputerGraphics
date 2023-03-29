@@ -1,51 +1,41 @@
 #include <glut.h>
 #include <GL/gl.h>
 #include <GL/glu.h>
-#include "BunnyModel.h"
-int xRotate = 0;
+GLint TopLeftX, TopLeftY, BottomRightX, BottomRightY;
+
 void MyDisplay()
 {
-    glClear(GL_COLOR_BUFFER_BIT);
-    //glLoadIdentity(); // 현재 변환 행렬 초기화
-    glRotatef(xRotate, 1.0, 0.0, 0.0); // X축 회전 (차후 설명)
-// BunnyModel 그리는 코드
-    unsigned int i;
-    for(i=0; i<(sizeof(face_indicies)/sizeof(face_indicies[0])); i++)
-    {
-        int vi;
-        glBegin(GL_LINES);
-        vi=face_indicies[i][0]; glVertex3fv(vertices[vi]);
-        vi=face_indicies[i][1]; glVertex3fv(vertices[vi]);
-        vi=face_indicies[i][1]; glVertex3fv(vertices[vi]);
-        vi=face_indicies[i][2]; glVertex3fv(vertices[vi]);
-        vi=face_indicies[i][2]; glVertex3fv(vertices[vi]);
-        vi=face_indicies[i][0]; glVertex3fv(vertices[vi]);
-        glEnd ();
-    }
+// glClear(GL_COLOR_BUFFER_BIT);
+    glColor3f(1.0, 0.0, 0.0);
+    glBegin(GL_LINES);
+    glVertex3f(TopLeftX / 300.0, (300 - TopLeftY) / 300.0, 0.0);
+    glVertex3f(BottomRightX / 300.0, (300 - BottomRightY) / 300.0, 0.0);
+    glEnd();
     glFlush();
 }
-void MyKeyboard(unsigned char KeyPressed, int X, int Y)
+
+void MyMouseClick(GLint Button, GLint State, GLint X, GLint Y)
 {
-    switch (KeyPressed){
-        case 'Q':
-            exit(0); break;
-        case 'q':
-            exit(0); break;
-        case 'X':
-            xRotate -= 1;
-            break;
-        case 'x':
-            xRotate += 1;
-            break;
+    if (Button == GLUT_LEFT_BUTTON && State == GLUT_DOWN)
+    {
+        TopLeftX = X;
+        TopLeftY = Y;
     }
-    glutPostRedisplay(); // 화면 다시 그리기
+    if (Button == GLUT_LEFT_BUTTON && State == GLUT_UP)
+    {
+        BottomRightX = X;
+        BottomRightY = Y;
+        glutPostRedisplay();
+    }
 }
 int main(int argc, char *argv[])
 {
     glutInit(&argc, argv);
+    glutInitWindowSize(300, 300);
     glutCreateWindow("OpenGL Example");
+    glOrtho(0.0, 1.0, 0.0, 1.0, -1.0, 1.0); // 정사투영: 차후 설명
     glutDisplayFunc(MyDisplay);
-    glutKeyboardFunc(MyKeyboard);
+    glutMouseFunc(MyMouseClick);
     glutMainLoop();
     return 0;
 }
