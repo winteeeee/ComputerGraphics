@@ -1,54 +1,84 @@
 #include <glut.h>
 #include <GL/gl.h>
 #include <GL/glu.h>
-#include "BunnyModel.h"
+#include <cmath>
 
-GLuint g_stanfordBunnyID = -1;
+double b, c, t1, t2, x, y;
+double a = 1;
+double d = 1;
+double scale = 1;
+double theta = 0;
 
-GLint GenerateCallList() {
-    GLint lid = glGenLists(1);
+void transform(double *X, double *Y) {
+    double ix = *X;
+    double iy = *Y;
 
-    glNewList(lid, GL_COMPILE);
-    glColor3f(1.0f, 0.0f, 0.0f);
-
-    // BunnyModel 그리는 코드
-    unsigned int i;
-    for(i=0; i<(sizeof(face_indicies)/sizeof(face_indicies[0])); i++)
-    {
-        int vi;
-        glBegin(GL_LINES);
-        vi=face_indicies[i][0]; glVertex3fv(vertices[vi]);
-        vi=face_indicies[i][1]; glVertex3fv(vertices[vi]);
-        vi=face_indicies[i][1]; glVertex3fv(vertices[vi]);
-        vi=face_indicies[i][2]; glVertex3fv(vertices[vi]);
-        vi=face_indicies[i][2]; glVertex3fv(vertices[vi]);
-        vi=face_indicies[i][0]; glVertex3fv(vertices[vi]);
-        glEnd ();
-    }
-    glEndList();
-
-    return lid;
+    *X = a * ix + b * iy + t1;
+    *Y = c * ix + d * iy + t2;
 }
 
-void MyDisplay()
-{
+void MyDisplay() {
     glClear(GL_COLOR_BUFFER_BIT);
-    glLoadIdentity();
-    glColor3f(1.0f, 0.0f, 0.0f);
+    glBegin(GL_POLYGON);
 
-    glCallList(g_stanfordBunnyID);
+    x = -0.1; y = -0.1;
+    transform(&x, &y);
+    glVertex2d(x, y);
+
+    x = -0.1; y = 0.1;
+    transform(&x, &y);
+    glVertex2d(x, y);
+
+    x = 0.1; y = 0.1;
+    transform(&x, &y);
+    glVertex2d(x, y);
+
+    x = 0.1; y = -0.1;
+    transform(&x, &y);
+    glVertex2d(x, y);
+    glEnd();
     glFlush();
 }
 
-int main(int argc, char *argv[])
-{
-    glutInit(&argc, argv);
-    glutCreateWindow("OpenGL Example");
-    glClearColor(1.0, 1.0, 1.0, 1.0);
+void update() {
+    double angle = theta * M_PI / 180;
+    a = scale * cos(angle);
+    b = -scale * sin(angle);
+    c = -b;
+    d = a;
+}
 
-    g_stanfordBunnyID = GenerateCallList();
+void MyKeyboard(unsigned char key, int X, int Y) {
+    if (key == 's') {
+        a += 0.1;
+        d += 0.1;
+    } else if (key == 'S') {
+        a -= 0.1;
+        d -= 0.1;
+    } else if (key == 't') {
+        theta += 1;
+        update();
+    } else if (key == 'T') {
+        theta -= 1;
+        update();
+    } else if (key == 'r') {
+
+    } else if (key == 'R') {
+
+    }
+    glutPostRedisplay();
+}
+
+int main(int argc, char** argv)
+{
+    a = 1;
+    d = 1;
+    glutInit(&argc, argv);
+    glutInitWindowSize(700, 700);
+    glutCreateWindow("OpenGL Example");
 
     glutDisplayFunc(MyDisplay);
+    glutKeyboardFunc(MyKeyboard);
     glutMainLoop();
     return 0;
 }
