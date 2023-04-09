@@ -16,12 +16,12 @@ void MyDisplay() {
     glVertex3f(0, 0, -1); glVertex3f(0, 0, 1);
     glEnd();
 
-    glRotatef(45, 0.0, 0.0, 1.0);
     glTranslatef(0.5, 0.0, 0.0);
     glScalef(2.0, 2.0, 2.0);
+    glRotatef(45, 0.0, 0.0, 1.0);
 
     glColor3f(0.0, 0.0, 1.0);
-// glutSolidCube(0.2);
+    //glutSolidCube(0.2);
     glBegin(GL_POLYGON);
     glVertex3f(0.1f, 0.1f, 0.0f);
     glVertex3f(0.1f, -0.1f, 0.0f);
@@ -39,4 +39,5 @@ int main(int argc, char** argv) {
     glutDisplayFunc(MyDisplay);
     glutMainLoop();
     return 0;
-}*/
+}
+*/
