@@ -33,7 +33,7 @@ void MyDisplay()
     glEnable(GL_DEPTH_TEST);
 // Test Enable or Disable
 // 카메라 셋팅(시점조절관련 간단히 타이핑해볼것).
-    //gluLookAt(0, 0, 3, 0, 0, 0, 0, 1, 0);
+    gluLookAt(3, 3, 3, 0, 0, 0, 0, 1, 0);
 // Axis
     glBegin(GL_LINES);
     glColor3f(1.0f, 0.0f, 0.0f); glVertex3f(0.0f, 0.0f, 0.0f); glVertex3f(5.0f, 0.0f, 0.0f);
@@ -67,7 +67,7 @@ void MyDisplay()
 void drawHead()
 {
     glTranslatef(0, 2.8, 0);
-    glRotatef(90, 0, 1, 0);
+    glRotatef(270, 0, 1, 0);
     glColor3f(1, 0, 0);
     glutSolidTeapot(0.8);
 }
@@ -112,9 +112,9 @@ void drawLeftLeg()
     glutSolidCube(1);
     glPopMatrix();
     glPushMatrix();
-    glTranslatef(-0.5, -4.5, 0);
+    glTranslatef(-0.5, -4.5, 0.25);
     glColor3f(0, 0, 0);
-    glScalef(0.5, 0.5, 0.5);
+    glScalef(0.5, 0.5, 1.5);
     glutSolidCube(1);
 }
 void drawRightLeg()
@@ -125,8 +125,8 @@ void drawRightLeg()
     glutSolidCube(1);
     glPopMatrix();
     glPushMatrix();
-    glTranslatef(0.5, -4.5, 0);
+    glTranslatef(0.5, -4.5, 0.25);
     glColor3f(0, 0, 0);
-    glScalef(0.5, 0.5, 0.5);
+    glScalef(0.5, 0.5, 1.5);
     glutSolidCube(1);
 }
