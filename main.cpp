@@ -1,4 +1,3 @@
-/*
 #include <glut.h>
 #include <GL/gl.h>
 #include <GL/glu.h>
@@ -129,4 +128,4 @@ int main(int argc, char** argv)
     //glutKeyboardFunc(MyKeyboard);
     glutMainLoop();
     return 0;
-}*/
+}
