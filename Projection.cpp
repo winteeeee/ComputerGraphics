@@ -1,3 +1,4 @@
+/*
 #include <glut.h>
 #include <GL/gl.h>
 #include <GL/glu.h>
@@ -16,7 +17,6 @@ GLint fixX = 0;
 GLint fixY = 0;
 
 GLint zDistance = -2; // increase & decrease + / -
-GLint fovValue = 30;
 
 GLint GenerateCallList()
 {
@@ -54,10 +54,7 @@ void MyDisplay()
     glLoadIdentity();
 
     // Orthogonal Proj.
-    //glOrtho(-1.0, 1.0, -1.0, 1.0, -10.0, 10.0);
-
-    glFrustum(-1, 1, -1, 1, -10, 10);
-    gluPerspective(fovValue, 1, 0.1, 10);
+    glOrtho(-1.0, 1.0, -1.0, 1.0, -10.0, 10.0);
 
     // Modeling Matrix Setting
     glMatrixMode(GL_MODELVIEW);
@@ -129,15 +126,6 @@ void MyKeyboard(unsigned char KeyPressed, int X, int Y)
             zDistance -= 1;
             printf("zDistance: %d\n", zDistance);
             break;
-        case ']':
-            fovValue++;
-            printf("fov : %d\n", fovValue);
-            break;
-        case '[':
-            fovValue--;
-            printf("fov : %d\n", fovValue);
-            break;
-
     }
     glutPostRedisplay();
 }
@@ -186,3 +174,4 @@ int main(int argc, char** argv)
 
     return 0;
 }
+*/
