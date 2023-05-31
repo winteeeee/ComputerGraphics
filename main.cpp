@@ -1,3 +1,4 @@
+/*
 #include <glut.h>
 #include <GL/gl.h>
 #include <GL/glu.h>
@@ -42,4 +43,4 @@ int main(int argc, char** argv)
     glutDisplayFunc(MyDisplay);
     glutMainLoop();
     return 0;
-}
+}*/

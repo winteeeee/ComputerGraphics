@@ -14,6 +14,12 @@ GLint clickDown = 0;
 GLint fixX = 0;
 GLint fixY = 0;
 
+GLfloat light0_position[] = { 0, 0, 3, 0 };
+GLfloat light0_diffuse[] = { 1, 1, 0, 1 };
+GLfloat light0_ambient[] = { 1, 0, 0, 1 };
+GLfloat light0_specular[] = { 0, 0, 1, 1 };
+
+
 GLint GenerateCallList()
 {
     GLint lid = glGenLists(1);
@@ -25,14 +31,26 @@ GLint GenerateCallList()
     for (i = 0; i<(sizeof(face_indicies) / sizeof(face_indicies[0])); i++)
     {
         int vi;
+        int ni;
         glBegin(GL_POLYGON);
+
+        ni = face_indicies[i][3];
         vi = face_indicies[i][0];
-        glVertex3f(vertices[vi][0], vertices[vi][1], vertices[vi][2]);
+        glNormal3fv(normals[ni]);
+        glVertex3fv(vertices[vi]);  //법석 벡터를 먼저 지정 해야함
+
+        ni = face_indicies[i][4];
         vi = face_indicies[i][1];
-        glVertex3f(vertices[vi][0], vertices[vi][1], vertices[vi][2]);
+        glNormal3fv(normals[ni]);
+        glVertex3fv(vertices[vi]);
+
+        ni = face_indicies[i][5];
         vi = face_indicies[i][2];
-        glVertex3f(vertices[vi][0], vertices[vi][1], vertices[vi][2]);
+        glNormal3fv(normals[ni]);
+        glVertex3fv(vertices[vi]);
+
         glEnd();
+        //법석 벡터 지정하지 않으면 입체감이 살아나지 않음
     }
     glEndList();
 
@@ -41,9 +59,11 @@ GLint GenerateCallList()
 
 void MyDisplay()
 {
-    glClear(GL_COLOR_BUFFER_BIT);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
-    glColor3f(1.0f, 0.0f, 0.0f);
+    gluLookAt(0, 0, 6, 0, 0, 0, 0, 1, 0);
+    glColor3f(1.0f, 1.0f, 1.0f);
     // glScalef( 2.0f, 2.0f, 2.0f );
 
     glRotatef(xValue, 1.0, 0.0, 0.0);
@@ -61,8 +81,20 @@ void MyDisplay()
     glVertex3f(0.0f, 0.0f, 0.0f); glVertex3f(0.0f, 0.0f, 1.0f);
     glEnd();
 
+    // Light Position
+    glPushMatrix();
+    glColor3f(1.0, 1.0, 0.0);
+    glTranslatef(light0_position[0], light0_position[1], light0_position[2]);
+    glutSolidSphere(0.1, 36, 36);
+    glPopMatrix();
+
+    glLightfv(GL_LIGHT0, GL_POSITION, light0_position); //0번 광원 위치
+
     // display Call Lists
+    glEnable(GL_LIGHTING);
     glCallList(g_stanfordBunnyID);
+    glDisable(GL_LIGHTING);
+    //glutSolidTeapot(0.5);
     glFlush();
 }
 
@@ -131,10 +163,24 @@ void MyMouseMove(GLint X, GLint Y)
 int main(int argc, char** argv)
 {
     glutInit(&argc, argv);
+    glutInitDisplayMode(GLUT_RGBA | GLUT_DEPTH);
     glutInitWindowSize(700, 700);
     glutCreateWindow("OpenGL Example");
 
     g_stanfordBunnyID = GenerateCallList();
+
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    gluPerspective(45, 1, 0.1, 30);
+
+    glEnable(GL_DEPTH_TEST);
+    glEnable(GL_LIGHT0);
+    glLightfv(GL_LIGHT0, GL_DIFFUSE, light0_diffuse);
+    glLightfv(GL_LIGHT0, GL_AMBIENT, light0_ambient);
+    glLightfv(GL_LIGHT0, GL_SPECULAR, light0_specular);
+
+    //glShadeModel(GL_SMOOTH);
+    glShadeModel(GL_FLAT);
 
     glutDisplayFunc(MyDisplay);
 
