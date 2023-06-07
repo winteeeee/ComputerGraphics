@@ -1,3 +1,4 @@
+/*
 #include <glut.h>
 #include <GL/gl.h>
 #include <GL/glu.h>
@@ -107,12 +108,14 @@ void MyDisplay()
     glTexCoord2f(1.0f, 0.0f); glVertex3f(1.0f, -1.0f, 1.0f);
     glTexCoord2f(1.0f, 1.0f); glVertex3f(1.0f, 1.0f, 1.0f);
     glTexCoord2f(0.0f, 1.0f); glVertex3f(-1.0f, 1.0f, 1.0f);
+*/
 /*
 glTexCoord2f(0.0f, 0.0f); glVertex3f(-1.0f, -1.0f, 1.0f); //앞면 repeat or clamp
 glTexCoord2f(3.0f, 0.0f); glVertex3f( 1.0f, -1.0f, 1.0f);
 glTexCoord2f(3.0f, 3.0f); glVertex3f( 1.0f, 1.0f, 1.0f);
 glTexCoord2f(0.0f, 3.0f); glVertex3f(-1.0f, 1.0f, 1.0f);
-*/
+*//*
+
     glEnd();
     glBegin(GL_POLYGON);
     glTexCoord2f(1.0f, 0.0f); glVertex3f(-1.0f, -1.0f, -1.0f); // 뒷면
@@ -173,3 +176,4 @@ int main(int argc, char** argv)
     glutTimerFunc(50, MyTimer, 1);
     glutMainLoop();
 }
+*/
